@@ -2,7 +2,7 @@
 # Building middleware
 
 ## Write a middleware that sets the current culture based on a query string value
-1. Start with the application you created in the first lab, or just create a new empty ASP.NET 5 application
+1. Start with the "Hello World" application you already created, or just create a new empty ASP.NET Core application
 1. Open `Startup.cs`
 1. Create an inline middleware that runs **before** the hello world delegate that sets the culture for the current request from the query string:
   
@@ -31,7 +31,7 @@ public void Configure(IApplicationBuilder app)
 }
 ```
   
-1. Run the app now and set the culture via the query string, e.g. http://localhost/?culture=no
+1. Run the app now and set the culture via the query string, e.g. http://localhost/?culture=no or ?cultuer=it
 
 
 ## Move the middleware to its own type
@@ -80,7 +80,7 @@ public static class RequestCultureMiddlewareExtensions
 ```
   
 1. Back in the application's `Startup.cs` file, delete the inline middleware delegate
-1. Add your new middleware class to the HTTP pipeline:
+1. Add your new middleware class to the HTTP pipeline using the extension method:
 
 ``` C#
 app.UseRequestCulture();
@@ -89,6 +89,7 @@ app.UseRequestCulture();
 1. Run the application again and see that the middleware is now running as a class
 
 ## Adding options to middleware
+
 1. Create a class called `RequestCultureOptions.cs` with a `CultureInfo` property called DefaultCulture.
 
 ```C#
@@ -171,16 +172,19 @@ app.UseRequestCulture(new RequestCultureOptions
 1. Add a constructor to the application's `Startup.cs`
 1. Create a new `Configuration` object in the constructor and assign it to a new private class field `IConfiguration _configuration`
 1. Add a reference to the `Microsoft.Extensions.Configuration.Json` package in the application's `project.json` file
-1. Back in the `Startup.cs`, add a call to `.AddJsonFile("config.json")` immediately after the creation of the `Configuration` object (inline, chained method). It should now look like the following:
+1. Have ``Startup()`` accept ``IHostingEnvironment env`` as a parameter
+1. Add a call to ``.SetBasePath(env.ContentRootPath)`` immediately after the creation of the ``ConfigurationBuilder`` in chained fashion.
+1. Add a call to `.AddJsonFile("config.json")` immediately after the creation of the `ConfigurationBuilder` in chained fashion. It should now look like the following:
 
 ``` C#
 public class Startup
 {
 private readonly IConfiguration _configuration;
 
-public Startup()
+public Startup(IHostingEnvironment env)
 {
     var configuration = new ConfigurationBuilder()
+        .SetBasePath(env.ContentRootPath)
         .AddJsonFile("config.json")
         .Build();
 
@@ -205,6 +209,11 @@ app.UseRequestCulture(new RequestCultureOptions
 1. Change the culture in the `config.json` file and refresh the page (without changing any other code). Note that the message hasn't changed as the configuration was only read when the application was started.
 1. Go back to Visual Studio and touch and save the `Startup.cs` file to force the process to restart
 1. Go back to the browser now and refresh the page and it should show the updated message
+1. You can modify configuration files to automatically reload when they are changed by setting ``reloadOnChange`` to true. You can also specify whether they should be required or optional:
+
+```C#
+    .AddJsonFile("config.json", optional: false, reloadOnChange: true)
+```
 
 
 ## Flowing options from dependency injection system to middleware
@@ -249,10 +258,10 @@ app.UseRequestCulture();
 ```C#
 public void ConfigureServices(IServiceCollection services)
 {
-services.Configure<RequestCultureOptions>(options =>
-{
-    options.DefaultCulture = new CultureInfo(_configuration["culture"] ?? "en-GB");
-});
+    services.Configure<RequestCultureOptions>(options =>
+    {
+        options.DefaultCulture = new CultureInfo(_configuration["culture"] ?? "en-GB");
+    });
 }
 ```
   
