@@ -266,3 +266,35 @@ public void ConfigureServices(IServiceCollection services)
 ```
   
 1. Run the application and see that options are now being configured from the dependency injection system.
+
+## Extra Credit - Author Header Middleware
+
+Add middleware to your application that will add a header to every request crediting you as the app's author.
+
+1. Modify your ``Configure`` method in `Startup.cs` to add a response header before your "Hello World" middleware:
+
+``` c#
+app.Use(async (context, next) =>
+{
+  context.Response.Headers.Add("Author", "Your Name");
+  await next.Invoke();
+});
+app.Run(async context =>
+{
+  await context.Response.WriteAsync("Hello world ");
+});
+```
+
+1. Run the application. Verify the author header is set using developer tools.
+
+1. Move the code from `Startup.cs` to its own middleware class
+
+1. Modify `Startup.cs` to call a ``UseAuthorHeaderMiddleware`` helper method
+
+1. Add the author name to `config.json`
+
+1. Update configuration in `Startup.cs` to bind the new setting to ``_configuration``
+
+1. Pass the configuration data to your middleware class using the IOptions<T> pattern
+
+1. Run the app; verify the author header is still set as expected
