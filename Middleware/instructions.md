@@ -6,7 +6,7 @@
 1. Open `Startup.cs`
 1. Create an inline middleware that runs **before** the hello world delegate that sets the culture for the current request from the query string:
   
-``` C#
+    ``` C#
 public void Configure(IApplicationBuilder app)
 {
     app.Use((context, next) =>
@@ -29,7 +29,7 @@ public void Configure(IApplicationBuilder app)
         await context.Response.WriteAsync($"Hello {CultureInfo.CurrentCulture.DisplayName}");
     });
 }
-```
+    ```
   
 1. Run the app now and set the culture via the query string, e.g. http://localhost/?culture=no or ?cultuer=it
 
@@ -41,7 +41,7 @@ public void Configure(IApplicationBuilder app)
 1. Copy the code from the inline middleware delegate in the application's `Startup.cs` file to the `Invoke` method you just created and fix the `next` method name
 1. Your middleware class should now look something like this:
 
-``` C#
+    ``` C#
 public class RequestCultureMiddleware
 {
     private readonly RequestDelegate _next;
@@ -65,11 +65,11 @@ public class RequestCultureMiddleware
         return _next(context);
     }
 }
-```
+    ```
 
 1. At the bottom of the file, add a class that exposes the middleware via an extension method on `IApplicationBuilder`.
 
-```C#
+    ```C#
 public static class RequestCultureMiddlewareExtensions
 {
     public static IApplicationBuilder UseRequestCulture(this IApplicationBuilder builder)
@@ -77,14 +77,14 @@ public static class RequestCultureMiddlewareExtensions
         return builder.UseMiddleware<RequestCultureMiddleware>();
     }
 }
-```
+    ```
   
 1. Back in the application's `Startup.cs` file, delete the inline middleware delegate
 1. Add your new middleware class to the HTTP pipeline using the extension method:
 
-``` C#
+    ``` C#
 app.UseRequestCulture();
-```
+    ```
   
 1. Run the application again and see that the middleware is now running as a class
 
@@ -92,16 +92,16 @@ app.UseRequestCulture();
 
 1. Create a class called `RequestCultureOptions.cs` with a `CultureInfo` property called DefaultCulture.
 
-```C#
+    ```C#
 public class RequestCultureOptions
 {
     public CultureInfo DefaultCulture { get; set; }
 }
-```
+    ```
 
 1. Add an overload to `UseRequestCulture` that takes those options and passes them into the `UseMiddleware<RequestCultureMiddleware>` call.
 
-```C#
+    ```C#
 public static IApplicationBuilder UseRequestCulture(this IApplicationBuilder builder)
 {
     return builder.UseRequestCulture(new RequestCultureOptions());
@@ -111,11 +111,11 @@ public static IApplicationBuilder UseRequestCulture(this IApplicationBuilder bui
 {
     return builder.UseMiddleware<RequestCultureMiddleware>(options);
 }
-```
+    ```
 
 1. Change the `RequestCultureMiddleware` constructor to take the `RequestCultureOptions`.
 
-```C#
+    ```C#
 public class RequestCultureMiddleware
 {
     private readonly RequestDelegate _next;
@@ -128,11 +128,11 @@ public class RequestCultureMiddleware
     }
     ...
 }
-```
+    ```
   
 1. Change the `Invoke` method of the middleware to use the DefaultCulture from options if none specified on the query string
 
-```C#
+    ```C#
 public Task Invoke(HttpContext httpContext)
 {
     CultureInfo requestCulture = null;
@@ -155,16 +155,16 @@ public Task Invoke(HttpContext httpContext)
 
     return _next(httpContext);
 }
-```
+    ```
 
 1. Set the fallback culture in `Startup.cs` `Configure` method to some default value:
 
-```C#
+    ```C#
 app.UseRequestCulture(new RequestCultureOptions
 {
     DefaultCulture = new CultureInfo("en-GB")
 });
-```
+    ```
 
 1. Run the application again and see the default culture when no query string is specified matches the one configured.
 
@@ -176,7 +176,7 @@ app.UseRequestCulture(new RequestCultureOptions
 1. Add a call to ``.SetBasePath(env.ContentRootPath)`` immediately after the creation of the ``ConfigurationBuilder`` in chained fashion.
 1. Add a call to `.AddJsonFile("config.json")` immediately after the creation of the `ConfigurationBuilder` in chained fashion. It should now look like the following:
 
-``` C#
+    ``` C#
 public class Startup
 {
 private readonly IConfiguration _configuration;
@@ -192,18 +192,18 @@ public Startup(IHostingEnvironment env)
 }
 ...
 }
-```
+    ```
   
 1. Add a new JSON file to the project called `config.json`
 1. Add a new key/value pair to the `config.json` file: `"culture": "en-US"`
 1. Change the code in `Startup.cs` to set the default culture using the configuration system:
 
-``` C#
+    ``` C#
 app.UseRequestCulture(new RequestCultureOptions
 {
     DefaultCulture = new CultureInfo(_configuration["culture"] ?? "en-GB")
 });
-```
+    ```
   
 1. Run the application and the default culture should be set from the configuration file.
 1. Change the culture in the `config.json` file and refresh the page (without changing any other code). Note that the message hasn't changed as the configuration was only read when the application was started.
@@ -211,9 +211,9 @@ app.UseRequestCulture(new RequestCultureOptions
 1. Go back to the browser now and refresh the page and it should show the updated message
 1. You can modify configuration files to automatically reload when they are changed by setting ``reloadOnChange`` to true. You can also specify whether they should be required or optional:
 
-```C#
-    .AddJsonFile("config.json", optional: false, reloadOnChange: true)
-```
+    ```C#
+.AddJsonFile("config.json", optional: false, reloadOnChange: true)
+    ```
 
 
 ## Flowing options from dependency injection system to middleware
@@ -222,17 +222,17 @@ app.UseRequestCulture(new RequestCultureOptions
 
 1. Change the `RequestCultureMiddleware` constructor to take `IOptions<RequestCultureOptions>` instead of `RequestCultureOptions`:
   
-```C#
+    ```C#
 public RequestCultureMiddleware(RequestDelegate next, IOptions<RequestCultureOptions> options)
 {
     _next = next;
     _options = options.Value;
 }
-```
+    ```
   
 1. Change the `UseRequestCulture` extension methods to both call `UseMiddleware<RequestCultureMiddleware>`. The overload taking `RequestCultureOptions` should wrap it in an `IOptions<RequestCultureOptions>` by calling `Options.Create(options)`: 
 
-```C#
+    ```C#
 public static class RequestCultureMiddlewareExtensions
 {
     public static IApplicationBuilder UseRequestCulture(this IApplicationBuilder builder)
@@ -245,17 +245,17 @@ public static class RequestCultureMiddlewareExtensions
         return builder.UseMiddleware<RequestCultureMiddleware>(Options.Create(options));
     }
 }
-```
+    ```
 
 1. In `Startup.cs` change the `UseRequestCulture` middleware to not take any arguments:
 
-```C#
+    ```C#
 app.UseRequestCulture();
-```
+    ```
 
 1. In `Startup.cs` add a `ConfigureServices(ISeviceCollection services)` method and add a line that configures the culture using the `services.Configure<RequestCultureOptions>` method:
 
-```C#
+    ```C#
 public void ConfigureServices(IServiceCollection services)
 {
     services.Configure<RequestCultureOptions>(options =>
@@ -263,7 +263,7 @@ public void ConfigureServices(IServiceCollection services)
         options.DefaultCulture = new CultureInfo(_configuration["culture"] ?? "en-GB");
     });
 }
-```
+    ```
   
 1. Run the application and see that options are now being configured from the dependency injection system.
 
@@ -273,7 +273,7 @@ Add middleware to your application that will add a header to every request credi
 
 Modify your ``Configure`` method in `Startup.cs` to add a response header before your "Hello World" middleware:
 
-```c# 
+    ```c# 
 app.Use(async (context, next) =>
 {
   context.Response.Headers.Add("Author", "Your Name");
@@ -283,7 +283,7 @@ app.Run(async context =>
 {
   await context.Response.WriteAsync("Hello world ");
 });
-```
+    ```
 
 1. Run the application. Verify the author header is set using developer tools.
 
@@ -303,7 +303,7 @@ app.Run(async context =>
 
 1. Configure logging to use the Console and Configuration
 
-```c#
+    ```c#
 public void Configure(IApplicationBuilder app, 
     IHostingEnvironment env, 
     ILoggerFactory loggerFactory)
@@ -320,14 +320,14 @@ public void Configure(IApplicationBuilder app,
       "Microsoft": "Information"
     }
   },
-```
+    ```
 
 1. Inject an ILoggerFactory into your middleware and create an ``ILogger`` field from it.
 
-```c#
+    ```c#
 // middleware constructor
 _logger = loggerFactory.CreateLogger<YourMiddlewareType>();
-```
+    ```
 
 1. Log whenever the header is added in your middleware
 
