@@ -31,7 +31,7 @@ public void Configure(IApplicationBuilder app)
 }
     ```
   
-1. Run the app now and set the culture via the query string, e.g. http://localhost/?culture=no or ?cultuer=it
+1. Run the app now and set the culture via the query string, e.g. http://localhost/?culture=no or ?culture=it
 
 
 ## Move the middleware to its own type
