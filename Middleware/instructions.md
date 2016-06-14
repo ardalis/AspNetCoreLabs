@@ -271,7 +271,7 @@ public void ConfigureServices(IServiceCollection services)
 
 Add middleware to your application that will add a header to every request crediting you as the app's author.
 
-1. Modify your ``Configure`` method in `Startup.cs` to add a response header before your "Hello World" middleware:
+Modify your ``Configure`` method in `Startup.cs` to add a response header before your "Hello World" middleware:
 
 ``` c#
 app.Use(async (context, next) =>
