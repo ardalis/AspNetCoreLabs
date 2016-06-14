@@ -256,13 +256,13 @@ app.UseRequestCulture();
 1. In `Startup.cs` add a `ConfigureServices(ISeviceCollection services)` method and add a line that configures the culture using the `services.Configure<RequestCultureOptions>` method:
 
     ```C#
-public void ConfigureServices(IServiceCollection services)
-{
-    services.Configure<RequestCultureOptions>(options =>
+    public void ConfigureServices(IServiceCollection services)
     {
-        options.DefaultCulture = new CultureInfo(_configuration["culture"] ?? "en-GB");
-    });
-}
+        services.Configure<RequestCultureOptions>(options =>
+        {
+            options.DefaultCulture = new CultureInfo(_configuration["culture"] ?? "en-GB");
+        });
+    }
     ```
   
 1. Run the application and see that options are now being configured from the dependency injection system.
@@ -273,16 +273,16 @@ Add middleware to your application that will add a header to every request credi
 
 Modify your ``Configure`` method in `Startup.cs` to add a response header before your "Hello World" middleware:
 
-    ```c# 
-app.Use(async (context, next) =>
-{
-  context.Response.Headers.Add("Author", "Your Name");
-  await next.Invoke();
-});
-app.Run(async context =>
-{
-  await context.Response.WriteAsync("Hello world ");
-});
+    ```c#
+    app.Use(async (context, next) =>
+    {
+        context.Response.Headers.Add("Author", "Your Name");
+        await next.Invoke();
+    });
+    app.Run(async context =>
+    {
+        await context.Response.WriteAsync("Hello world ");
+    });
     ```
 
 1. Run the application. Verify the author header is set using developer tools.
