@@ -273,7 +273,7 @@ Add middleware to your application that will add a header to every request credi
 
 Modify your ``Configure`` method in `Startup.cs` to add a response header before your "Hello World" middleware:
 
-``` c#
+```c# 
 app.Use(async (context, next) =>
 {
   context.Response.Headers.Add("Author", "Your Name");
@@ -298,3 +298,37 @@ app.Run(async context =>
 1. Pass the configuration data to your middleware class using the IOptions<T> pattern
 
 1. Run the app; verify the author header is still set as expected
+
+1. Add logging to your app.
+
+1. Configure logging to use the Console and Configuration
+
+```c#
+public void Configure(IApplicationBuilder app, 
+    IHostingEnvironment env, 
+    ILoggerFactory loggerFactory)
+{
+    loggerFactory.AddConsole(Configuration.GetSection("Logging"));
+}
+
+// JSON settings example
+  "Logging": {
+    "IncludeScopes": false,
+    "LogLevel": {
+      "Default": "Trace",
+      "System": "Information",
+      "Microsoft": "Information"
+    }
+  },
+```
+
+1. Inject an ILoggerFactory into your middleware and create an ``ILogger`` field from it.
+
+```c#
+// middleware constructor
+_logger = loggerFactory.CreateLogger<YourMiddlewareType>();
+```
+
+1. Log whenever the header is added in your middleware
+
+1. Run the app from the console and verify your log messages appear when you make requests to the app.
