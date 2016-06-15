@@ -280,7 +280,8 @@ namespace Brainstormer.Web.Models
         }
 
     }
-}    ```
+}    
+```
 
 1. Now add a new IdeasController to the Controllers folder:
 
