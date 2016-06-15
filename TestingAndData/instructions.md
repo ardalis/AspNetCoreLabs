@@ -239,7 +239,8 @@ namespace Brainstormer.Web.Interfaces
         List<Idea> List();
         void Create(Idea idea);
     }
-}    ```
+}    
+    ```
 
 1. Add an implementation of this interface to the Models folder. Call it EfIdeaRepository.
 
@@ -281,7 +282,7 @@ namespace Brainstormer.Web.Models
 
     }
 }    
-```
+    ```
 
 1. Now add a new IdeasController to the Controllers folder:
 
@@ -404,7 +405,6 @@ namespace Brainstormer.Tests.IntegrationTests
 
     }
 }
-
     ```
 
 1. Run the tests. The second test should fail.
