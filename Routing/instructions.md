@@ -71,13 +71,13 @@ routeBuilder.MapGet("item/{itemName}", context => context.Response.WriteAsync($"
 
 1. Run the site and verify that your new route works
 
-1. Modify the route to include a route constraint on the captured segmet, enforcing it to be a number:
+1. Modify the route to include a route constraint on the captured segment, enforcing it to be a number:
   
     ``` c#
 routeBuilder.MapGet("item/{id:int}", context => context.Response.WriteAsync($"Item ID: {context.GetRouteValue("id")}"));
     ```
 
-1. Run the site again and see that the route is only matched when the captured segment is a valid number. What happens when textis used?
+1. Run the site again and see that the route is only matched when the captured segment is a valid number. What happens when text is used?
 
 1. Modify the router to include both versions of the route above (with and without the route constraint)
 
