@@ -11,7 +11,7 @@
 1. Open `Startup.cs`
 1. Modify your middleware that returns "Hello World" so that it throws an exception.
 1. Test the app - note that you don't get much information from the exception.
-1. In ``Configure`` add the DeveloperExceptionPage if the app is in ``Development`` environment
+1. In ``Configure`` add the DeveloperExceptionPage if the app is in ``Development`` environment (Note: if you are running this in the command line set the environment variable there e.g. `set ASPNETCORE_ENVIRONMENT=Development` on Windows or `export ASPNETCORE_ENVIRONMENT=Development` on Mac OS)
   
     ``` C#
 public void Configure(IApplicationBuilder app)
