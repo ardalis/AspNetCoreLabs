@@ -218,7 +218,7 @@ public void ConfigureServices(IServiceCollection services)
 }
     ```
 
-1. Run the application and make a GET request to `/api/products` with the Accept header `application/xml`. The response should be an XML payload of the products.
+1. Run the application and make a GET request to `/api/products` with the Accept header `application/xml`. The response should be an XML payload of the products. (Note: if you browse using Chrome it might still return JSON)
 
     ```JSON
 // Example fiddler Headers
