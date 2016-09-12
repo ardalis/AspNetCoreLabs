@@ -8,7 +8,7 @@
     ```JSON
 "dependencies": {
     ...,
-    "Microsoft.AspNetCore.Routing": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Routing": "1.0.0",
 }
     ```
 
