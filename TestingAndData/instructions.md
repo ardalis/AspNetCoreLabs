@@ -34,8 +34,8 @@
       "version": "1.0.0-rc2-3002702"
     },
     "xunit": "2.1.0",
-    "dotnet-test-xunit": "1.0.0-rc2-*",
-    "Microsoft.AspNetCore.TestHost": "1.0.0-rc2-final",
+    "dotnet-test-xunit": "1.0.0",
+    "Microsoft.AspNetCore.TestHost": "1.0.0",
     "Brainstormer.Web": "1.0.0-*",
     "Newtonsoft.Json": "8.0.3"
   },
