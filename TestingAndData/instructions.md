@@ -103,7 +103,7 @@ namespace Brainstormer.Tests.IntegrationTests
 }
     ```
 
-1. Integration tests use instances of ``HttpClient``, which are created from a ``TestServer``. You can do this in each test, but that tends to get repetitive, so the last helper class you need is a "TestClientFactory":
+1. Integration tests use instances of ``HttpClient``, which are creatd from a ``TestServer``. You can do this in each test, but that tends to get repetitive, so the last helper class you need is a "TestClientFactory":
 
     ```c#
 using System.IO;
@@ -135,6 +135,7 @@ namespace Brainstormer.Tests.IntegrationTests
                     services.AddSingleton<IHostingEnvironment>(env);
                 })
                 .UseEnvironment("Testing")
+                .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseStartup<TestStartup>();
             var server = new TestServer(builder);
             return server.CreateClient();
