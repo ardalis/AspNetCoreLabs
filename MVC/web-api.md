@@ -204,7 +204,7 @@ public void Post(Product product)
     ```JSON
 "dependencies": {
 ...
-"Microsoft.AspNetCore.Mvc.Formatters.Xml": "1.0.0-rc2-final",
+"Microsoft.AspNetCore.Mvc.Formatters.Xml": "1.0.0",
 },
     ```
 
