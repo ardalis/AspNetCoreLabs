@@ -218,7 +218,7 @@ public void ConfigureServices(IServiceCollection services)
 }
     ```
 
-1. Run the application and make a GET request to `/api/products` with the Accept header `application/xml`. The response should be an XML payload of the products. (Note: if you browse using Chrome it might still return JSON)
+1. Run the application and make a GET request to `/api/products` with the Accept header `application/xml`. The response should be an XML payload of the products. (Note: if you browse using a browser it might still return JSON; browsers typically send an Accept header that includes *.* in which case ASP.NET Core will default to returning application/JSON)
 
     ```JSON
 // Example fiddler Headers
