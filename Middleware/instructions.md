@@ -173,7 +173,7 @@ app.UseRequestCulture(new RequestCultureOptions
 1. Create a new `Configuration` object in the constructor and assign it to a new private class field `IConfiguration _configuration`
 1. Add a reference to the `Microsoft.Extensions.Configuration.Json` package in the application's `project.json` file
 1. Have ``Startup()`` accept ``IHostingEnvironment env`` as a parameter
-1. Add a call to ``.SetBasePath(env.ContentRootPath)`` immediately after the creation of the ``ConfigurationBuilder`` in chained fashion.
+1. Add a call to ``.SetBasePath(env.ContentRootPath)`` immediately after the creation of the ``ConfigurationBuilder`` in chained fashion. (Make sure your `WebHostBuilder` in Program.cs has `.UseContentRoot(Directory.GetCurrentDirectory())`)
 1. Add a call to `.AddJsonFile("config.json")` immediately after the creation of the `ConfigurationBuilder` in chained fashion. It should now look like the following:
 
     ``` C#
