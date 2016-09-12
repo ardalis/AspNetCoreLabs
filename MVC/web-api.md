@@ -3,7 +3,7 @@
 ## Setup
 1. Start with a new Empty Web app)
 1. Open the `project.json` file
-1. In the `dependencies` section, add an entry for the "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final" package:
+1. In the `dependencies` section, add an entry for the "Microsoft.AspNetCore.Mvc": "1.0.0" package:
 
     ```JSON
 "dependencies": {
