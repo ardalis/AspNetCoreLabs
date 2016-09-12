@@ -8,7 +8,7 @@
     ```JSON
 "dependencies": {
     ...,
-    "Microsoft.AspNetCore.Mvc": "1.0.0-rc2-final",
+    "Microsoft.AspNetCore.Mvc": "1.0.0",
 }
     ```
 
