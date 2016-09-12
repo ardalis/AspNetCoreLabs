@@ -343,7 +343,7 @@ public void ConfigureServices(IServiceCollection services)
 
 1. Run the application. Navigate to /api/Ideas. You should see an empty result.
 
-1. Post an Idea using Fiddler/Postman; you can just supply a Name and Description:
+1. Post an Idea using Fiddler/Postman; you can just supply a Name and Description (Note: If you receive a 415 status you'll need to specify content-type header of application/json):
 
     ```json
 {
