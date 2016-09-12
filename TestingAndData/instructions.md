@@ -33,11 +33,11 @@
       "type": "platform",
       "version": "1.0.0"
     },
-    "dotnet-test-xunit": "1.0.0-rc2-build10025",
-    "xunit": "2.1.0",
+    "xunit": "2.2.0-beta2-build3300",
+    "dotnet-test-xunit": "2.2.0-preview2-build1029",
     "Microsoft.AspNetCore.TestHost": "1.0.0",
-    "Brainstormer.Web": "1.0.0-*",
-    "Newtonsoft.Json": "8.0.3"
+    "BrainStormer.Web": "1.0.0-*",
+    "Newtonsoft.Json": "9.0.1"
   },
   "testRunner": "xunit",
   "frameworks": {
