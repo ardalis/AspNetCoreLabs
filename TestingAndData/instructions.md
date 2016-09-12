@@ -212,7 +212,7 @@ namespace Brainstormer.Web.Models
     }
 }    
     ```
-Visual Studio should prompt you to add the package ``"Microsoft.EntityFrameworkCore": "1.0.0-rc2-final"``
+Visual Studio should prompt you to add the package ``"Microsoft.EntityFrameworkCore": "1.0.0"``
 
 1. Add support for Entity Framework in ``ConfigureServices`` in *Startup*:
 
@@ -224,7 +224,7 @@ public void ConfigureServices(IServiceCollection services)
     services.AddMvc();
 }
     ```
-Visual Studio should prompt you to add the package ``"Microsoft.EntityFrameworkCore.InMemory": "1.0.0-rc2-final"``
+Add the package ``"Microsoft.EntityFrameworkCore.InMemory": "1.0.0"`` to project.json. You will also need to add a using statement for ``Microsoft.EntityFrameworkCore`` to Startup.cs.
 
 1. Add a new "Interfaces" folder and add an "IIdeaRepository" interface type to it:
 
